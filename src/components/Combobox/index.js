@@ -1,19 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
  
 import { languages } from '../../constants/const'
 import ComboboxItem from './ComboboxItem'
 import styles from './style.module.css' 
  
-const Combobox = () => (
-    <div className={styles.combobox}>
-    {<ul>
-      {languages.map(({language, name, flag}) => 
-        <ComboboxItem language={language}
-          name={name} 
-          flag={flag} />)}
-    </ul>
-    }
-</div>
-)
- 
+const Combobox = () => {
+  const [selectedItem, setSelectedItem] = useState(
+    languages.find(el => el.name === "eng"))
+  const [open, setOpen] = useState(false)
+  return (
+      <div className={styles.combobox} onClick={() => setOpen(!open) }>
+          {open &&
+              <ul>
+                  {languages.map(el => 
+                  <ComboboxItem {...el} setSelected={setSelectedItem} />)}
+              </ul>
+          }
+          {selectedItem.language}
+      </div>
+  )
+}
+
 export default Combobox
